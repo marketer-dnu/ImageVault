@@ -423,42 +423,39 @@
     Developed with 💖 by <a href="https://www.linkedin.com/in/dariusdnu/" target="_blank" rel="noopener noreferrer">Dhineshbabu Perumal Samy</a>
   </footer>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbybMHoriswAGt6zvqW4uTIxVrUt1x3tyZoucQ3fcR3MR8gvod8_ux_Jqlwe7eMNK1QJ/exec";
-    const form = document.getElementById('waitlistForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const successMsg = document.getElementById('successMsg');
+ <script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbybMHoriswAGt6zvqW4uTIxVrUt1x3tyZoucQ3fcR3MR8gvod8_ux_Jqlwe7eMNK1QJ/exec";
+  const form = document.getElementById('waitlistForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
 
-      const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        profession: document.getElementById('profession').value
-      };
+    const formData = new FormData();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('email', document.getElementById('email').value);
+    formData.append('whatsapp', document.getElementById('whatsapp').value);
+    formData.append('profession', document.getElementById('profession').value);
 
-      // Send to Google Apps Script connected spreadsheet
-      fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      .then(() => {
-        form.style.display = 'none';
-        successMsg.style.display = 'block';
-      })
-      .catch(error => {
-        console.error('Error!', error.message);
-        alert('Submission failed. Please try again.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Get Notified at Launch';
-      });
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    })
+    .then(() => {
+      form.style.display = 'none';
+      successMsg.style.display = 'block';
+    })
+    .catch(error => {
+      console.error('Error!', error.message);
+      alert('Submission failed. Please try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Get Notified at Launch';
     });
-  </script>
+  });
+</script>
 </body>
 </html>
